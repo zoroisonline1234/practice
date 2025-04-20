@@ -1,0 +1,22 @@
+library(ggcorrplot)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(summarytools)
+
+setwd("/home/a/aman/")
+data <- read.csv("iris.csv")
+
+head(data)
+sum(is.na(data))
+data <- na.omit(data)
+data$sepal.length[is.na(data$sepal.length)] <- mean(data$sepal.length, na.rm=TRUE)
+
+summary(data)
+
+cor_matrix <- cor(data[, 1:4])
+ggcorrplot(cor_matrix, lab=TRUE, title= "Correlation Matrix")
+
+ggplot(data, aes(x = sepal.length)) +
+  geom_histogram(binwidth = 0.1, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of Sepal Length", x = "Sepal Length", y = "Frequency")
